@@ -1,0 +1,143 @@
+/* --- GOOGLE FONTS --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body { background-color: #ffffff; color: #000; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* --- 1. TOP BAR --- */
+.top-bar {
+    background-color: #000; color: #fff; text-align: center;
+    font-size: 10px; font-weight: 600; letter-spacing: 2px;
+    padding: 10px 10px; text-transform: uppercase;
+}
+
+/* --- 2. HERO WRAPPER --- */
+.hero-wrapper {
+    position: relative; width: 96%; height: 500px;
+    margin: 10px auto; border-radius: 20px; overflow: hidden;
+}
+
+/* --- 3. PILL NAVBAR (FIXED & SMART) --- */
+nav {
+    position: fixed; /* Fixed jate scroll korleo thake */
+    top: 50px;       /* Admin panel er moton */
+    left: 50%;
+    transform: translateX(-50%); /* Center kora */
+    width: 90%;      /* Aro ektu choto width */
+    height: 40px;    /* HEIGHT KOMANO HOLO (Slim) */
+    
+    background: #000;
+    border-radius: 50px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 30px;
+    z-index: 1000;
+    transition: top 0.4s ease-in-out; /* Hide/Show Animation */
+}
+
+/* Scroll Down korle ei class add hobe (JS diye) */
+nav.nav-hide {
+    top: -100px; /* Screen er baire chole jabe */
+}
+
+nav .logo { 
+    font-size: 20px; font-weight: 800; font-style: italic; 
+    letter-spacing: 1px; cursor: pointer; color: #fff; text-transform: uppercase;
+}
+
+nav ul { display: flex; gap: 25px; height: 100%; align-items: center; }
+
+nav ul li a { 
+    font-size: 12px; text-transform: uppercase; font-weight: 500; color: #fff; 
+    position: relative; letter-spacing: 0.5px; opacity: 0.8; transition: 0.3s;
+}
+
+/* Text Hover Effect */
+nav ul li a:hover { opacity: 1; }
+nav ul li a::after {
+    content: ''; position: absolute; width: 0%; height: 2px;
+    bottom: -5px; left: 0; background-color: #fff; transition: width 0.3s ease-in-out;
+}
+nav ul li a:hover::after { width: 100%; }
+
+
+/* --- ICONS & SEARCH BAR --- */
+nav .icons { display: flex; align-items: center; gap: 15px; position: relative; }
+
+nav .icons i {
+    font-size: 14px; color: #fff; cursor: pointer; 
+    opacity: 0.7; transition: 0.3s;
+}
+
+/* Icon Hover Effect */
+nav .icons i:hover {
+    opacity: 1; transform: scale(1.2); /* Ektu boro hobe */
+    color: #f1c40f; /* Yellow tint on hover */
+}
+
+/* Hidden Search Input */
+.search-box {
+    position: absolute;
+    right: 0;
+    top: 50px; /* Navbar er niche ashbe */
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: none; /* By default hidden */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.search-box.active { display: flex; } /* JS diye active hobe */
+
+.search-box input {
+    border: 1px solid #ddd; padding: 5px 10px; font-size: 12px; outline: none;
+}
+.search-box button {
+    background: #000; color: #fff; border: none; padding: 5px 10px; cursor: pointer; font-size: 12px;
+}
+
+/* --- 4. HERO SLIDER --- */
+.hero-slider { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+.slide { width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; }
+.slide.active { opacity: 1; }
+.slide img { width: 100%; height: 100%; object-fit: cover; }
+.slide-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10; }
+.btn-white { padding: 10px 30px; background: transparent; color: #fff; border: 2px solid #fff; font-weight: 700; cursor: pointer; text-transform: uppercase; margin-top: 20px; transition: 0.3s; border-radius: 30px; font-size: 12px; }
+.btn-white:hover { background: #fff; color: #000; }
+
+/* --- 5. CATEGORY SECTION --- */
+.category-wrapper { display: flex; justify-content: center; gap: 20px; padding: 60px 5%; }
+.cat-oval { position: relative; width: 23%; height: 400px; overflow: hidden; cursor: pointer; border-radius: 10px; transition: border-radius 0.8s ease, transform 0.5s ease; }
+.cat-oval:hover { border-radius: 50%; transform: scale(0.95); }
+.cat-oval img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+.cat-oval:hover img { transform: scale(1.1); }
+.cat-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid #fff; color: #fff; padding: 10px 25px; border-radius: 30px; text-transform: uppercase; font-size: 12px; font-weight: 600; background: rgba(0,0,0,0.3); }
+
+/* --- PRODUCTS PAGE TITLE --- */
+h1 { margin-top: 5px; margin-bottom: 40px; text-transform: uppercase; font-size: 26px; font-weight: 700; letter-spacing: 2px; }
+
+/* --- 6. MID BANNER --- */
+.mid-banner { width: 96%; height: 450px; margin: 0 auto 50px; border-radius: 20px; overflow: hidden; }
+.mid-banner img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --- 7. FEATURED PRODUCTS --- */
+.section-title { text-align: center; margin: 50px 0; text-transform: uppercase; font-size: 26px; font-weight: 700; letter-spacing: 2px; }
+.product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; padding: 0 5% 60px; }
+.product-card { cursor: pointer; transition: 0.3s; }
+.product-card:hover { transform: translateY(-5px); }
+.product-card img { width: 100%; height: 380px; object-fit: cover; margin-bottom: 12px; border-radius: 10px; }
+.product-card h3 { font-size: 14px; text-transform: uppercase; font-weight: 600; }
+.product-card .price { font-size: 15px; color: #000; margin-top: 5px; font-weight: 500; }
+
+/* --- 8. NEW ARRIVALS --- */
+.scroll-container { display: flex; overflow-x: auto; gap: 25px; padding: 0 5% 80px; scroll-behavior: smooth; }
+.scroll-container::-webkit-scrollbar { height: 6px; }
+.scroll-container::-webkit-scrollbar-thumb { background: #000; border-radius: 10px; }
+.scroll-item { min-width: 280px; cursor: pointer; }
+.scroll-item img { width: 100%; height: 350px; object-fit: cover; margin-bottom: 10px; border-radius: 10px; }
+
+/* --- 9. FOOTER --- */
+.info-section { display: flex; justify-content: space-around; padding: 60px 5%; background: #f8f8f8; text-align: center; }
+.info-box h4 { margin-bottom: 15px; text-transform: uppercase; font-size: 14px; font-weight: 700; }
+.info-box p { font-size: 13px; color: #666; width: 280px; margin: 0 auto; line-height: 1.6; }
+footer { background: #000; color: #fff; padding: 60px; text-align: center; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
