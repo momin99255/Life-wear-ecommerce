@@ -292,7 +292,7 @@ foreach($cart_items as $item) {
                             <?php foreach($cart_items as $item): ?>
                             <tr>
                                 <td class="product-cell">
-                                    <img src="<?php echo !empty($item['image']) ? 'uploads/' . $item['image'] : 'https://via.placeholder.com/80x80'; ?>" alt="<?php echo $item['name']; ?>">
+                                    <img src="<?php echo !empty($item['image']) ? (strpos($item['image'], 'http') === 0 ? $item['image'] : 'uploads/' . $item['image']) : 'https://via.placeholder.com/80x80'; ?>" alt="<?php echo $item['name']; ?>">
                                     <span><?php echo $item['name']; ?></span>
                                 </td>
                                 <td>Tk. <?php echo $item['price']; ?></td>

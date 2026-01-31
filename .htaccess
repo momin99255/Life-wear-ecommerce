@@ -1,0 +1,14 @@
+# Ensure modern image formats are served with correct MIME types
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/jpeg .jfif .jif
+</IfModule>
+
+# Optional: Add basic caching for images
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+</IfModule>

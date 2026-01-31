@@ -61,7 +61,7 @@ A complete, professional e-commerce website for clothing and accessories. Built 
 | **Database** | MySQL 5.7+ |
 | **Server** | Apache (XAMPP/Hosting) |
 | **Icons** | Font Awesome 6.0 |
-| **Images** | Local (images folder) |
+| **Images** | Local (images folder) — Supported formats: jpg, jpeg, png, gif, webp, jfif |
 
 ---
 

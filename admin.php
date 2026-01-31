@@ -47,19 +47,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $file_size = $_FILES['image']['size'];
         $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
         
-        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'jfif', 'jif'];
+        $allowed_mimes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         
         if(in_array($file_ext, $allowed) && $file_size < 5000000) {
-            $new_name = time() . '.' . $file_ext;
-            $upload_path = 'uploads/' . $new_name;
-            
-            if(move_uploaded_file($file_tmp, $upload_path)) {
-                $image = $new_name;
+            // Validate MIME type and ensure file is an actual image
+            $is_image = false;
+            if(function_exists('finfo_open')) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, $file_tmp);
+                finfo_close($finfo);
+                if(in_array($mime, $allowed_mimes)) {
+                    $is_image = true;
+                }
             } else {
-                $error = 'Image upload failed';
+                if(getimagesize($file_tmp) !== false) {
+                    $is_image = true;
+                }
+            }
+            
+            if($is_image) {
+                $new_name = time() . '.' . $file_ext;
+                $upload_path = 'uploads/' . $new_name;
+                
+                if(move_uploaded_file($file_tmp, $upload_path)) {
+                    $image = $new_name;
+                } else {
+                    $error = 'Image upload failed';
+                }
+            } else {
+                $error = 'Uploaded file is not a valid image';
             }
         } else {
-            $error = 'Invalid image file (max 5MB, jpg/png/gif/webp)';
+            $error = 'Invalid image file (max 5MB, jpg/png/gif/webp/jfif)';
         }
     }
     
@@ -69,11 +89,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             if($image) {
                 $sql = "UPDATE products SET name=?, category=?, subcategory=?, price=?, description=?, image=? WHERE id=?";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssdsssi", $name, $category, $subcategory, $price, $description, $image, $id);
+                // types: name(s), category(s), subcategory(s), price(d), description(s), image(s), id(i)
+                $stmt->bind_param("sssdssi", $name, $category, $subcategory, $price, $description, $image, $id);
             } else {
                 $sql = "UPDATE products SET name=?, category=?, subcategory=?, price=?, description=? WHERE id=?";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssdsi", $name, $category, $subcategory, $price, $description, $id);
+                // types: name(s), category(s), subcategory(s), price(d), description(s), id(i)
+                $stmt->bind_param("sssdsi", $name, $category, $subcategory, $price, $description, $id);
             }
             if($stmt->execute()) {
                 $success = 'Product updated!';
@@ -82,11 +104,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             if($image) {
                 $sql = "INSERT INTO products (name, category, subcategory, price, description, image) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssdsss", $name, $category, $subcategory, $price, $description, $image);
+                // types: name(s), category(s), subcategory(s), price(d), description(s), image(s)
+                $stmt->bind_param("sssdss", $name, $category, $subcategory, $price, $description, $image);
             } else {
                 $sql = "INSERT INTO products (name, category, subcategory, price, description) VALUES (?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ssdss", $name, $category, $subcategory, $price, $description);
+                // types: name(s), category(s), subcategory(s), price(d), description(s)
+                $stmt->bind_param("sssds", $name, $category, $subcategory, $price, $description);
             }
             if($stmt->execute()) {
                 $success = 'Product added!';
@@ -412,9 +436,10 @@ if(isset($_GET['edit'])) {
                 
                 <div class="form-row">
                     <input type="file" name="image" accept="image/*" placeholder="Upload Product Image">
+                    <small style="color:#666; display:block; margin-top:6px;">Allowed: jpg, jpeg, png, gif, webp, jfif (max 5MB)</small>
                     <?php if(isset($edit_product['image']) && $edit_product['image']): ?>
                         <div style="padding: 10px; background: #f0f0f0; border-radius: 5px;">
-                            Current: <img src="uploads/<?php echo $edit_product['image']; ?>" alt="Product" style="max-width: 100px; max-height: 100px;">
+                            Current: <img src="<?php echo (strpos($edit_product['image'], 'http') === 0 ? $edit_product['image'] : 'uploads/' . $edit_product['image']); ?>" alt="Product" style="max-width: 100px; max-height: 100px;">
                         </div>
                     <?php endif; ?>
                 </div>

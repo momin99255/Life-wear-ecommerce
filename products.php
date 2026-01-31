@@ -74,7 +74,7 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
             <?php if(count($products) > 0): ?>
                 <?php foreach($products as $product): ?>
                     <a href="product-detail.php?id=<?php echo $product['id']; ?>" class="product-card" style="text-decoration: none; color: inherit;">
-                        <img src="<?php echo !empty($product['image']) ? 'uploads/' . $product['image'] : 'https://via.placeholder.com/300x400'; ?>">
+                        <img src="<?php echo !empty($product['image']) ? (strpos($product['image'], 'http') === 0 ? $product['image'] : 'uploads/' . $product['image']) : 'https://via.placeholder.com/300x400'; ?>">
                         <h3><?php echo $product['name']; ?></h3>
                         <p style="font-size: 12px; color: #666;"><?php echo substr($product['description'], 0, 40); ?></p>
                         <div class="price">Tk. <?php echo $product['price']; ?></div>

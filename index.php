@@ -109,7 +109,7 @@ include 'db.php';
             while($row = $result->fetch_assoc()) {
                 ?>
                 <a href="product-detail.php?id=<?php echo $row['id']; ?>" class="product-card">
-                    <img src="<?php echo !empty($row['image']) ? 'uploads/' . $row['image'] : 'https://via.placeholder.com/300x400'; ?>">
+                    <img src="<?php echo !empty($row['image']) ? (strpos($row['image'], 'http') === 0 ? $row['image'] : 'uploads/' . $row['image']) : 'https://via.placeholder.com/300x400'; ?>">
                     <h3><?php echo $row['name']; ?></h3>
                     <div class="price">Tk. <?php echo $row['price']; ?></div>
                 </a>
@@ -138,7 +138,7 @@ include 'db.php';
             while($new_row = $new_result->fetch_assoc()) {
                 ?>
                 <a href="product-detail.php?id=<?php echo $new_row['id']; ?>" class="scroll-item" style="text-decoration: none; color: inherit;">
-                    <img src="<?php echo !empty($new_row['image']) ? 'uploads/' . $new_row['image'] : 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'; ?>">
+                    <img src="<?php echo !empty($new_row['image']) ? (strpos($new_row['image'], 'http') === 0 ? $new_row['image'] : 'uploads/' . $new_row['image']) : 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'; ?>">
                     <h3 style="font-size:14px; margin-top:5px;"><?php echo $new_row['name']; ?></h3>
                     <div style="font-size:13px; color:#555;">Tk. <?php echo $new_row['price']; ?></div>
                 </a>
